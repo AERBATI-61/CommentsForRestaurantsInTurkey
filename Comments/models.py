@@ -24,12 +24,7 @@ mekan_types = {
 
 
 
-class District(models.Model):
-    city                = models.ForeignKey('City', on_delete=models.CASCADE, blank=False, null=False)
-    district                = models.CharField(max_length=64, blank=False, null=False)
 
-    def __str__(self):
-        return self.district
 
 
 
@@ -63,13 +58,14 @@ class Destination(models.Model):
 
 
 class Food(models.Model):
+    restaurant           = models.ForeignKey('Restaurants', on_delete=models.CASCADE, blank=False, null=False)
     name                 = models.CharField(max_length=64, blank=False, null=False)
     price                = models.IntegerField(blank=False, null=False)
     image                = models.ImageField(upload_to='static/assets/images/all/', blank=False, null=False)
     description          = models.TextField()
 
     def __str__(self):
-        return self.name
+        return f'{self.name}-{self.restaurant.destination.destination}'
 
 
 
@@ -78,8 +74,6 @@ class Restaurants(models.Model):
     image                       = models.ImageField(upload_to='static/assets/images/all/', blank=False, null=False)
     destination                 = models.ForeignKey(Destination, on_delete=models.CASCADE, blank=False, null=False)
     city                        = models.ForeignKey(City, on_delete=models.CASCADE, blank=False, null=False)
-    district                    = models.ForeignKey(District, on_delete=models.CASCADE, blank=False, null=False)
-    food                        = models.ForeignKey(Food, on_delete=models.CASCADE, blank=False, null=False)
     service                     = models.BooleanField(blank=True, null=True)
     active_date                 = models.TimeField()
     inactive_date               = models.TimeField()

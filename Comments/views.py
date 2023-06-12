@@ -12,9 +12,6 @@ def index(request):
         restaurants = Restaurants.objects.all()
     else:
         restaurants = Restaurants.objects.filter(destination__destination=destination)
-
-
-
     context = {
         'destinations': Destination.objects.all(),
         'cities': City.objects.filter(destination__destination=destination),
@@ -27,9 +24,9 @@ def index(request):
     return render(request, 'comments/index.html', context)
 
 
-def city(request):
-    list = []
 
+
+def city(request):
 
     context = {
     'restaurant_destinations': Restaurants.objects.all(),
@@ -45,7 +42,6 @@ def city(request):
 
 def retaurantDetail(request, id):
     restaurantDetails = Restaurants.objects.get(id=id)
-
     total = []
     if request.method == "POST":
         name = request.POST.get("name")
@@ -62,25 +58,22 @@ def retaurantDetail(request, id):
         newComment = Comment(
             name=name, email=email, waiter=waiter, park=park, comfortable=comfortable, air_condition=air_condition,
             cleaning=cleaning, flavor=flavor, price=price, menu_variety=menu_variety, description=description, )
-
         newComment.restaurant = restaurantDetails
         newComment.save()
         return redirect(reverse("restaurantDetail", kwargs={"id": id}))
-
     for i in Comment.objects.filter(restaurant=id):
         orts = (int(i.waiter) + int(i.park) + int(i.comfortable) + int(i.air_condition) + int(i.cleaning) + int(
             i.flavor) + int(i.price) + int(i.menu_variety)) // 8
         total.append(orts)
-
     total = sum(total)
     total_ort = 0
     if (Comment.objects.filter(restaurant=id)):
         total_ort = float(total) / float(Comment.objects.filter(restaurant_id=id).count())
-
     context = {
         'restaurantDetails': restaurantDetails,
         'comments': Comment.objects.order_by("-date").filter(restaurant_id=id),
-        'total_ort': total_ort
+        'total_ort': total_ort,
+        'foods': Food.objects.filter(restaurant_id=id)[:3]
     }
     return render(request, 'comments/restaurantDetail.html', context)
 

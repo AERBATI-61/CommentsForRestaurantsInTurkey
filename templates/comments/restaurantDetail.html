@@ -214,6 +214,49 @@
 
 
 
+                    <div class="page-wrapper">
+        <div class="page-content">
+
+            <h6 class="mb-0 text-uppercase">The Some Of Foods</h6>
+            <hr/>
+            <div class="row row-cols-1 row-cols-md-1 row-cols-lg-3 row-cols-xl-3">
+
+
+                {% for food in foods %}
+                    <div class="col">
+                        <div class="card radius-15">
+                            <div class="card-body text-center">
+                                <div class="p-4 border radius-15">
+                                    <img src="{{ food.image.url }}"
+                                         style="height: 280px; width: 100%;">
+                                    <h5 class="mb-0 mt-5">{{ food.name }}</h5>
+                                    <p class="mb-1">{{ food.price }} TL</p>
+                                    <p class="mb-3">{{ food.description|truncatechars:100 }}</p>
+{#                                    <p class="mb-3"></p>#}
+                                    <div class="d-grid"><a href="{% url 'index' %}"
+                                                           class="btn btn-outline-primary radius-15">View More</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+
+
+            </div>
+
+
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
                         {% if comments %}
                             <h2 class="font-weight-light text-center text-muted py-3">ALL Comments</h2>
 
