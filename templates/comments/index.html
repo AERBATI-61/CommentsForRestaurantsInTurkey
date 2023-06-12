@@ -1,0 +1,255 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+
+
+
+    <div class="page-wrapper">
+        <div class="page-content">
+
+
+            <div class="row row-cols-1 row-cols-md-2 row-cols-xl-4">
+                <div class="col">
+                    <div class="card radius-10 border-start border-0 border-4 border-info">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center">
+                                <div>
+                                    <p class="mb-0 text-secondary">Restaurants</p>
+                                    <h4 class="my-1 text-info">{{ restaurant_destinations.count }}</h4>
+                                    <p class="mb-0 font-13">The Restaurants we have</p>
+                                </div>
+                                <div class="widgets-icons-2 rounded-circle bg-gradient-blues text-white ms-auto"><i
+                                        class='bx bxs-city'></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="col">
+                    <div class="card radius-10 border-start border-0 border-4 border-danger">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center">
+                                <div>
+                                    <p class="mb-0 text-secondary">Foods</p>
+                                    <h4 class="my-1 text-danger">{{ food_count.count }}</h4>
+                                    <p class="mb-0 font-13">The foods we have</p>
+                                </div>
+                                <div class="widgets-icons-2 rounded-circle bg-gradient-burning text-white ms-auto"><i
+                                        class='bx bxs-note'></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card radius-10 border-start border-0 border-4 border-success">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center">
+                                <div>
+                                    <p class="mb-0 text-secondary">Comments </p>
+                                    <h4 class="my-1 text-success">{{ comment_count.count }}</h4>
+                                    <p class="mb-0 font-13">The comments we have</p>
+                                </div>
+                                <div class="widgets-icons-2 rounded-circle bg-gradient-ohhappiness text-white ms-auto">
+                                    <i class='bx bxs-book'></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card radius-10 border-start border-0 border-4 border-warning">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center">
+                                <div>
+                                    <p class="mb-0 text-secondary">Customers</p>
+                                    <h4 class="my-1 text-success">{{ user_count.count }}</h4>
+                                    <p class="mb-0 font-13">The customers we have</p>
+                                </div>
+                                <div class="widgets-icons-2 rounded-circle bg-gradient-ohhappiness text-white ms-auto">
+                                    <i class='bx bxs-book'></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div><!--end row-->
+
+
+            <div class="row">
+                <div class="col-12 col-lg-3">
+                    <div class="card">
+                        <div class="card-body">
+
+                            <h5 class="my-3 bx bxs-food-menu"><a href="{% url 'index' %}">Restaurants</a></h5>
+                            <hr>
+                            <br>
+
+
+                            <div class="fm-menu">
+                                <div class="list-group list-group-flush">
+                                    <button class="btn btn-sm btn-outline-secondary" type="button"
+                                            data-bs-target="#t2_details" data-bs-toggle="collapse">Select City ▼
+                                    </button>
+                                    <div class="collapse border" id="t2_details">
+                                        <div class="p-2 text-monospace">
+                                            {% for destination in destinations %}
+                                                <div>
+                                                    <a href="{% url 'index' %}?destination={{ destination.destination }}"
+                                                       style="text-align: center">
+                                                        {{ destination }}
+                                                    </a></div>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </div>
+
+
+                            <hr>
+                            <br><br>
+                            <div class="fm-menu">
+                                <div class="list-group list-group-flush">
+                                    <button class="btn btn-sm btn-outline-secondary" type="button"
+                                            data-bs-target="#t2_detail" data-bs-toggle="collapse">Select District ▼
+                                    </button>
+                                    <div class="collapse border" id="t2_detail">
+                                        <div class="p-2 text-monospace">
+                                            {% for city in cities %}
+                                                <div>
+                                                    <a href="{% url 'index' %}?destination={{ city.sehir_name }}"
+                                                       style="text-align: center">
+                                                        {{ city }}
+                                                    </a></div>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                            <hr>
+                            <br><br>
+
+
+                            <div class="d-grid"><a href="{% url 'index' %}"
+                                                   class="btn btn-outline-primary radius-15"> < Go Back</a>
+                            </div>
+
+
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <div class="col-12 col-lg-9">
+                    <div class="card">
+                        <div class="card-body">
+
+
+                            <div class="row mt-3">
+                                <div class="row row-cols-1 row-cols-lg-2 row-cols-xl-3">
+
+
+                                    {% if restaurant_destinations %}
+                                        {% for restaurant in restaurant_destinations %}
+                                            <div class="col">
+                                                <div class="card">
+                                                    <img style="height: 30vh; width: 100%;margin-bottom: 5px"
+                                                         src="{{ restaurant.image.url }}" class="card-img-top"
+                                                         alt="...">
+                                                    <div class="card-body">
+                                                        <a href="{% url 'restaurantDetail' restaurant.id %}"><h5
+                                                                class="card-title">{{ restaurant.restaurant_name }}</h5>
+                                                        </a>
+                                                        <p class="card-text">{{ restaurant.description|truncatechars:100 }}</p>
+                                                    </div>
+                                                    <ul class="list-group list-group-flush">
+
+
+                                                        <li class="list-group-item">
+                                                            Çalışma Saatlerimiz:
+                                                            <b>{{ restaurant.active_date|time:'H:i' }}</b>
+                                                            ile <b>{{ restaurant.inactive_date|time:'H:i' }}</b> arası
+                                                        </li>
+                                                        <li class="list-group-item">
+                                                            mesai günümüz: <b>{{ restaurant.inactive_day }}</b></li>
+                                                    </ul>
+
+                                                    <div class="d-grid"><a
+                                                            href="{% url 'restaurantDetail' restaurant.id %}"
+                                                            class="btn btn-outline-primary radius-15">Detail</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        {% endfor %}
+
+                                    {% endif %}
+
+
+
+                                {% if restaurant_cities %}
+                                        {% for restaurant in restaurant_cities %}
+                                            <div class="col">
+                                                <div class="card">
+                                                    <img style="height: 30vh; width: 100%;margin-bottom: 5px"
+                                                         src="{{ restaurant.image.url }}" class="card-img-top"
+                                                         alt="...">
+                                                    <div class="card-body">
+                                                        <a href="{% url 'restaurantDetail' restaurant.id %}"><h5
+                                                                class="card-title">{{ restaurant.restaurant_name }}</h5>
+                                                        </a>
+                                                        <p class="card-text">{{ restaurant.description|truncatechars:100 }}</p>
+                                                    </div>
+                                                    <ul class="list-group list-group-flush">
+
+
+                                                        <li class="list-group-item">
+                                                            Çalışma Saatlerimiz:
+                                                            <b>{{ restaurant.active_date|time:'H:i' }}</b>
+                                                            ile <b>{{ restaurant.inactive_date|time:'H:i' }}</b> arası
+                                                        </li>
+                                                        <li class="list-group-item">
+                                                            mesai günümüz: <b>{{ restaurant.inactive_day }}</b></li>
+                                                    </ul>
+
+                                                    <div class="d-grid"><a
+                                                            href="{% url 'restaurantDetail' restaurant.id %}"
+                                                            class="btn btn-outline-primary radius-15">Detail</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        {% endfor %}
+
+                                    {% endif %}
+
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+
+
+
+
+
+
+{% endblock %}
